@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+
+<html >
+<head>
+<!--Created by Akshay Anand Fall 2013 MS CSCI 571/ email: akshayan@usc.edu-->
+    <title> Homework #4</title>
+    <style>
+    .centerAlign
+    {
+        width:80%;
+        text-align:left;
+    }
+    
+    .centerAlign
+    {
+        margin-left:30%;    
+    }
+     .centerAlign45
+    {
+        margin-left:45%;    
+    }
+     .centerAlign40
+    {
+        margin-left:40%;    
+    }
+    .heightLine
+    {
+          height:20px;
+    }
+    .widthMid
+    {
+        width:450px;
+    }
+   
+    .widthButton
+    {
+        width:70px;
+    }
+    </style>
+
+
+<script type="text/javascript">
+    var xmlDoc;
+        var html_text ="";
+function borderBright()
+ {
+    var txtBox = document.getElementById("text1");
+    txtBox.setAttribute("style:border", "solid 1px BLUE");
+    txtBox.setAttribute("style:border-color", "#00FF00");
+   }
+
+   function loadXML(url) {
+       if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+           xmlhttp = new XMLHttpRequest();
+       }
+       else {// code for IE6, IE5
+           xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+       }
+       xmlhttp.open("GET", url, false);
+       xmlhttp.send();
+       xmlDoc = xmlhttp.responseXML;
+       return xmlDoc;
+   }
+   function viewXML(what) 
+   {
+       var URL = what.URL.value;
+       xmlDoc = loadXML(URL);
+       if (window.ActiveXObject) //if IE, simply execute script (due to async prop).
+       {
+           if (xmlDoc.parseError.errorCode != 0)
+            {
+               var myErr = xmlDoc.parseError;
+               generateError(xmlDoc);
+               hWin = window.open("", "Error", "height=300,width=340");
+               hWin.document.write(html_text);
+           }
+           else 
+           {
+               generateHTML(xmlDoc);
+               hWin = window.open("", "Assignment4", "height=800,width=600");
+               hWin.document.write(html_text);
+           }
+       }
+       else //else if FF, execute script once XML object has loaded
+       {
+           xmlDoc.onload = generateHTML(xmlDoc);
+           hWin = window.open("", "Assignment4", "height=800,width=600");
+           hWin.document.write(html_text);
+       }
+      
+       hWin.document.close();
+   }
+
+
+
+
+function generateHTML(xmlDoc) 
+{ 
+ELEMENT_NODE = 1; // MS parser doesn't define Node.ELEMENT_NODE
+root = xmlDoc.DocumentElement;
+                                          html_text = "<html><head><title>XML Parse Result</title></head><body>";
+                                           x = xmlDoc.getElementsByTagName("book");
+                                           html_text += "<table border='1'>";
+                                           html_text += "<tr> <th>Author</th> <th>Title</th><th>Genre</th><th>Price</th><th>Publish_date</th><th>Description</th><th>Image</th></tr>";
+                                           for (i = 0; i < x.length; i++) 
+                                           {
+                                               html_text += "<tr><td>";
+                                               html_text += x[i].getElementsByTagName("author")[0].childNodes[0].nodeValue;
+                                               html_text += "</td><td>";
+                                               html_text += x[i].getElementsByTagName("title")[0].childNodes[0].nodeValue;
+                                               html_text += "</td><td>";
+                                               html_text += x[i].getElementsByTagName("genre")[0].childNodes[0].nodeValue;
+                                               html_text += "</td><td>";
+                                               html_text += x[i].getElementsByTagName("price")[0].childNodes[0].nodeValue;
+                                               html_text += "</td><td>";
+                                               html_text += x[i].getElementsByTagName("publish_date")[0].childNodes[0].nodeValue;
+                                               html_text += "</td><td>";
+                                               html_text += x[i].getElementsByTagName("description")[0].childNodes[0].nodeValue;
+                                               html_text += "</td><td>";
+                                               html_text += "<img  src='./" + x[i].getElementsByTagName("image")[0].childNodes[0].nodeValue;
+                                               html_text += "'></td></tr>";
+                                           } //end of for
+                                           html_text += "</table>";
+                                           html_text += "</body></html>";
+                                           }
+
+
+
+
+
+//   function viewXML()
+//    {
+// 
+//       if (window.XMLHttpRequest)
+//        {
+//           xhttp = new XMLHttpRequest();
+//        }
+
+//       else // for IE 5/6
+//       {
+//           xhttp = new ActiveXObject("Microsoft.XMLHTTP");
+//       }
+//      
+//       var url = document.getElementById('text1').value;
+//       //alert("value :" + url);
+//       if (url == "")
+//           {
+//                   alert('Please specify a file name!');
+//           }
+//               else {
+//      
+//                         url = document.getElementById('text1').value;
+//                           xhttp.open("GET", url, false);
+//                           xhttp.send();
+//                           xmlDoc = xhttp.responseXML;
+//                           var x = xmlDoc.getElementsByTagName("book");
+
+//                           if (x.length == 0) 
+//                           {
+//                               alert('File length is zero.');
+
+//                           }
+//           
+//                           if (xmlDoc.documentElement.nodeName == "parsererror")
+//                           {
+//                               alert('Error in XML File!');
+//                           }
+
+//                           if (x.length > 0) 
+//                           {
+//                                           //check for other parsing errors
+//                                           if (xmlDoc.documentElement.nodeName != "catalog") 
+//                                           {
+//                                               alert('Error in XML parsing');
+//                                           }
+//                                           x = xmlDoc.getElementsByTagName("author");
+//                                           if (x.length == 0) 
+//                                           {
+//                                               alert('Error in XML file author Tag missing!');
+//                                           }
+
+//                                           x = xmlDoc.getElementsByTagName("title");
+//                                           if (x.length == 0) 
+//                                           {
+//                                               alert('Error in XML file title Tag missing!');
+//                                           }
+
+//                                           x = xmlDoc.getElementsByTagName("genre");
+//                                           if (x.length == 0) 
+//                                           {
+//                                               alert('Error in XML file genre Tag missing!');
+//                                           }
+
+//                                           x = xmlDoc.getElementsByTagName("price");
+//                                           if (x.length == 0) 
+//                                           {
+//                                               alert('Error in XML file price Tag missing!');
+//                                           }
+
+//                                           x = xmlDoc.getElementsByTagName("publish_date");
+//                                           if (x.length == 0) 
+//                                           {
+//                                               alert('Error in XML file publish_date Tag missing!');
+//                                           }
+
+//                                           x = xmlDoc.getElementsByTagName("description");
+//                                           if (x.length == 0) 
+//                                           {
+//                                               alert('Error in XML file description Tag missing!');
+//                                           }
+
+//                                           var html_text = "";
+//                                         
+
+//                                           if (window.ActiveXObject) //if IE, simply execute script (due to async prop).
+//                                           {
+//                                               if (xmlDoc.parseError.errorCode != 0) {
+//                                                   var myErr = xmlDoc.parseError;
+//                                                
+//                                                   hWin = window.open("", "Error", "height=300,width=340");
+//                                                   hWin.document.write(html_text);
+//                                               } else {
+//                                                   xmlDoc.onload = html_text;
+//                                                   hWin = window.open("", "Assignment4", "height=800,width=600");
+//                                                   hWin.document.write(html_text);
+//                                               }
+//                                           } else //else if FF, execute script once XML object has loaded
+//                                           {
+//                                               xmlDoc.onload = html_text;
+//                                               hWin = window.open("", "Assignment4", "height=800,width=600");
+//                                               hWin.document.write(html_text);
+//                                           }
+//                                           hWin.document.close();
+
+//                                 }
+//                                        //end of if
+//}
+//                           
+//      //close of else 
+       //                
+
+   
+  
+
+ //end of function XMLLoad
+
+</script>
+</head>
+
+<body>
+<div class="centerAlign40"> Enter URL for Book XML File</div><br />
+
+<form name="myform" method="POST" id="location" action="" runat="server">
+<input id="text1" name="URL"  type="text" class="centerAlign widthMid heightLine centerAlign"
+ onclick="borderBright()" runat="server"><br />
+<input type="button" runat="server" onclick="loadXML(this.form)" title="Submit" class="centerAlign45 widthButton heightLine"  value="Submit"/>
+</form>
+
+<NOSCRIPT>
+</body>
+
+</html>
+
+
+
+
